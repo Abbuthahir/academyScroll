@@ -1,20 +1,50 @@
-<ion-header [translucent]="true">
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menu Content</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item routerLink="/old" >Infinite Scroll</ion-item>
+      <!-- <ion-item>New</ion-item> -->
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<div class="ion-page" id="main-content">
+
+<ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button color="black"></ion-menu-button>
+    </ion-buttons>
     <ion-title>
-      Blank
+      Virtual Scroll
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [scrollY]="false">
+  <ion-row class="ion-align-items-center">
+    <ion-col size="9">
+      <ion-searchbar placeholder="Enter the index" [(ngModel)]="scrollTo"></ion-searchbar>
+    </ion-col>
+    <ion-col size="3">
+      <ion-button (click)="scrollToIndex()" [disabled]="!scrollTo">Scroll</ion-button>
+    </ion-col>
+  </ion-row>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+
+  <cdk-virtual-scroll-viewport itemSize="56" minBufferPx="900" maxBufferPx="1350">
+    <ion-list>
+      <ion-item *cdkVirtualFor="let item of items; let isOdd = odd; let i = index;" [class.odd]="isOdd"
+       tappable (click)="selectItem(item)">
+        <ion-avatar slot="start">
+          <img src="https://loremflickr.com/100/100">
+        </ion-avatar>
+        <ion-label>{{ item }}</ion-label>
+      </ion-item>
+    </ion-list>
+  </cdk-virtual-scroll-viewport>
+
 </ion-content>
